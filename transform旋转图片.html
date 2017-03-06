@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="js/jquery.1.10.2.js"></script>
+    <script src="js/jquery.transit.js"></script>
+</head>
+<body>
+<style>
+    body,ul,li,a,h2{
+        margin: 0;
+        padding: 0;
+    }
+    li{
+        list-style: none;
+        width: 200px;
+        height: 172px;
+        overflow: hidden;
+        border: 30px solid #c1abab;
+        margin-left: -60px;
+    }
+    img{
+        display: flex;
+    }
+    #test1{
+        width: 300px;
+        height: 300px;
+        background: blueviolet;
+    }
+    .mainBox{
+        display: flex;
+        justify-content: center;
+        position: relative;
+    }
+    .mainBox ul{
+        display: flex;
+        width: 800px;
+        overflow: hidden;
+    }
+    .mainBox h2{
+        position: absolute;
+        right: 26%;
+        top: 76%;
+    }
+    a{
+        position: absolute;
+        font-size: 30px;
+    }
+    .btnLeft{
+        left: 24%;
+        top: 50%;
+    }
+    .btnRight{
+        right: 24%;
+        top: 50%;
+    }
+    .play{
+        left: 24%;
+    }
+
+</style>
+<div id="test1"></div>
+<div class="mainBox">
+    <ul>
+        <li><img src="images/product1.jpg" alt=""/></li>
+        <li><img src="images/product2.jpg" alt=""/></li>
+        <li><img src="images/product3.jpg" alt=""/></li>
+        <li><img src="images/product4.jpg" alt=""/></li>
+    </ul>
+    <div class="btnBox">
+        <a href="javascript:void (0)" class="btnLeft">&lt;</a>
+        <a href="javascript:void (0)" class="btnRight">&gt;</a>
+        <a href="javascript:void (0)" class="play">play</a>
+    </div>
+    <h2>多图旋转轮播效果</h2>
+</div>
+<script>
+    $(function(){
+//        $('#test1').transform({rotate:'60deg'});
+        $("#test1").animate({"rotate":"60deg"},500)
+        /*....................定时器setInterval......................*/
+        /*....................清除定时器定时器setInterval......................*/
+        /*param=setInterval(function(){},300)
+        clearInterval(param)关闭定时器*/
+/*        var a=0
+        var inTerval=setInterval(function(){
+            if(a>=5){
+                clearInterval(inTerval);
+            }
+           console.log(a++)
+        },500)*/
+
+        /**************************************setTimeout******************************/
+  /*      setTimeout(function(){
+            console.log('ss')
+        },500)*/
+
+        /*********************************轮播图******************************/
+        var loopPlayerInit=(function(){
+            //设为空的原因
+            var $btnLeft=null,
+                 $btnRight=null,
+                 $play=null,
+                 $imglist=null,
+                 origins=['200px','344px']//图片的宽，高度*2，为了让图片摆动的更大，高度*2
+                 imgAll=createImg([['images/product1.jpg','images/product2.jpg','images/product3.jpg','images/product4.jpg'],['images/product1.jpg','images/product2.jpg','images/product3.jpg','images/product4.jpg'],
+                     ['images/product1.jpg','images/product2.jpg','images/product3.jpg','images/product4.jpg'],
+                     ['images/product1.jpg','images/product2.jpg','images/product3.jpg','images/product4.jpg'],
+                     ['images/product1.jpg','images/product2.jpg','images/product3.jpg','images/product4.jpg'],
+                     ['images/product1.jpg','images/product2.jpg','images/product3.jpg','images/product4.jpg'],
+                     ['images/product1.jpg','images/product2.jpg','images/product3.jpg','images/product4.jpg']])//存放图片
+            function init(){
+                $btnLeft=$('.btnLeft'),
+                $btnRight=$('.btnRight'),
+                $play=$('.play'),
+                $imglist=$('.mainBox ul li');
+                //倾斜角度的函数
+                configer();
+                setEvent();
+//                debugger
+            }
+            function configer(){
+                //角度值
+                var ang=15,//每次变化的角度
+                    aint=-15;//初始角度，
+                //设置图片的中心点
+                $imglist.transform({origin:origins})
+                $imglist.each(function(i){
+                    var $this=$(this);
+                    //每个图片的旋转角度
+                    $this.transition({rotate:aint+(i*ang)+'deg'})
+                })
+            }//绑定事件
+            function setEvent(){
+                $btnLeft.bind('click',function(){
+                    anigo(-1)
+                    return false;//阻止跳转
+                })
+                $btnRight.bind('click',function(){
+                    anigo(1)
+                    return false;//阻止跳转
+                })
+                $play.bind('click',function(){
+                    return false;//阻止跳转
+                })
+            }
+            function createImg(arr){
+                var imgArr[];
+                for(var i in arr){
+                    imgArr[i]=[];
+                    for(var x in arr[i]){
+                        imgArr[i][x]=new Image();
+                        imgArr[i][x].src=arr[i][x];
+
+                    }
+                }
+
+                return imgArr
+            }
+            return init;
+        })();
+        loopPlayerInit()
+
+
+
+    })
+</script>
+</body>
+</html>

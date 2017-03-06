@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="js/jquery.1.10.2.js"></script>
+
+</head>
+<body>
+<style>
+    #boxWrapper {
+        display: flex;
+        justify-content: center;
+        background: slategrey;
+        margin: 1000px 0 0px;
+    }
+   #box {
+       width: 300px;
+       height: 200px;
+       background: red;
+       display: flex;
+       justify-content: center;
+       overflow-y: scroll;
+    }
+
+    @-webkit-keyframes fadeInLeft {
+        0% {
+            opacity: 0;
+            transform: translate3d(-100%, 0, 0);
+            -webkit-transform: translate3d(-100%, 0, 0);
+        }
+        100% {
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+            -webkit-transform: translate3d(0, 0, 0);
+        }
+    }
+
+    .fadeInLeft {
+        animation-name: fadeInLeft;
+        -webkit-animation-name: fadeInLeft;
+        animation-duration: 2s;
+        -webkit-animation-duration: 2s;
+    }
+</style>
+<div id="boxWrapper">
+    <div id="box">
+        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+        号号号号号号号号号号号号号号号号号号号号号号号号号号号号号号号号号号号号号号号号号号号号号号号号号号号号号号号号号
+    </div>
+</div>
+
+<script>
+
+
+    //网页滚动到底部或者顶部的加载
+    //判断滚动条是否已是底部或者顶部，可视化区域clientHeight+滚动条高度scrollTop=浏览器高度scrollHeight
+/*
+    function show() {
+
+        var showId = document.getElementById("box")
+        //兼容ie,获取可视区域的高度
+        var clients = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+        //获取滚动条scrollTop的高度
+        var scrollTop=document.body.scrollTop;
+        //获取整个滚动的高度
+         var wholeHeight=document.body.scrollHeight;
+//        //  这个方法返回一个矩形对象，包含四个属性：left、top、right和bottom。分别表示元素各边与页面上边和左边的距离。
+//        var divTop=showId.getBoundingClientRect().top;
+//        if(divTop<=clients){
+//            showId.classList.add("fadeInLeft")
+//        }
+//        document.getElementById("boxWrapper").style.height=clients+"px"; //设置div高度为浏览器的高度
+//
+
+
+        //可视区域加上卷上去的部分等于整个网页的高度，滚到了底部
+        if(clients+scrollTop>=wholeHeight){
+            alert("我已经滚动底部了")
+        }
+        //卷上去的部分等于0
+        if(scrollTop==0){
+            alert("我已经是顶部了")
+        }
+    }
+    window.onscroll=show
+*/
+//js
+    var div=document.getElementById("box")
+    //div滚动到底部顶部的加载
+    function divScroll(){
+        var wholeHeight=div.scrollHeight;
+        var scrollTop=div.scrollTop;
+        var divHeight=div.clientHeight;//获取div的高度
+
+        console.log(wholeHeight)
+//        console.log(scrollTop)
+//        console.log(divHeight)
+        if(scrollTop+divHeight>=wholeHeight){
+            alert("div滚动到底部")
+        }
+        if(scrollTop==0){
+            alert("div滚动到头部了")
+        }
+    }
+    div.onscroll=divScroll
+
+
+    //jq
+$(window).scroll(function(){
+    //div滚动时飞进来
+    var ks_area=$(window).height()//获取可视区域的高度
+    var scrollHeight=$(window).scrollTop();//获取可视区域距离上部的距离
+    var divTop=$("#box").offset().top;  //获取div距离上部的距离
+    if(ks_area+scrollHeight>=divTop){
+        $('#box').addClass('fadeInLeft')
+    }
+
+    //div滚动到底部 顶部
+    var wholeHeight=$(document).height()
+    var scrollTop=$(window).scrollTop()
+    if(ks_area+scrollTop>=wholeHeight){
+        alert("滚到底部了")
+    }
+    if(scrollTop==0){
+        alert("滚到顶部了")
+    }
+
+})
+</script>
+</body>
+
+</html>

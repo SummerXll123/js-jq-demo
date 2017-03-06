@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <script src="js/jquery.1.10.2.js"></script>
+    <title></title>
+</head>
+<body>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    img {
+        width: 232px;
+        height: 200px;
+    }
+    span:hover{
+        cursor: pointer;
+    }
+    .on,span:hover{
+        width: 5px;
+        height: 5px;
+        background: #ad8888;
+        color: #fff;
+    }
+    .caption {
+        display: flex;
+        align-items: center;
+        background: #eee;
+    }
+    ul{
+        display: flex;
+    }
+    li {
+        display: flex;
+        padding: 10px 5px;
+    }
+
+    .box {
+        border: 1px solid #ddd;
+        margin: 20px;
+        overflow: hidden;
+    }
+</style>
+<div class="box">
+    <div class="caption">
+        <h2>卡通动漫</h2>
+        <div class="highlight">
+            <span>1</span>
+            <span>2</span>
+            <span>3</span>
+            <span>4</span>
+        </div>
+        <div class="btn">
+            <span class="btnLeft">&lt;</span>
+            <span class="btnRight">&gt;</span>
+        </div>
+    </div>
+    <div class="content">
+        <div class="contentList">
+            <ul>
+                <li><a href="#"><img src="images/1.jpg" alt=""/></a></li>
+                <li><a href="#"><img src="images/2.jpg" alt=""/></a></li>
+                <li><a href="#"><img src="images/3.jpg" alt=""/></a></li>
+                <li><a href="#"><img src="images/4.jpg" alt=""/></a></li>
+                <li><a href="#"><img src="images/4.jpg" alt=""/></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        var page= 1;//初始化当前版面为1
+        var i=4;//每个版本放4个
+        var width=$('.contentList').width()//外围div的宽度
+        var len=$('.contentList li').length //一共有多少个图片 ,记得不是length()
+        var pageCount=Math.ceil(len/i) //一共有多少版面
+
+        $('.btnRight').click(function(){
+
+            if(!$('.contentList').is(':animated')){
+                if(page==pageCount){
+
+                    $('.contentList').animate({marginLeft:'0px'},'slow')//slow记得加'';left不能用时候，加上marginLeft
+                    page=1;
+
+                }else{
+                    $('.contentList').animate({
+                        marginLeft:'-='+width,
+                    },'slow')
+                    page++;
+                }
+
+                $(this).parents('.box').find('.highlight').eq(page-1).addClass('on').siblings().removeClass('on')
+            }
+
+        })
+        $('.btnLeft').click(function(){
+            if(!$('.contentList').is(':animated')){
+                if(page==1){
+                    $('.contentList').animate({marginLeft:'-='+width*(pageCount-1)},'slow')//slow记得加'';left不能用时候，加上marginLeft
+                    page=pageCount;
+                }else{
+                    $('.contentList').animate({left:'+='+width},'slow')
+                    page--
+                }
+            }
+        })
+    })
+</script>
+</body>
+</html>

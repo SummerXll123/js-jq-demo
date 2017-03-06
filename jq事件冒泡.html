@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <script src="js/jquery.1.10.2.js"></script>
+
+    <title></title>
+</head>
+<body>
+<style>
+    .search ul {
+        display: none;
+    }
+    .red{
+        color: red;
+        font-size: 20px;
+    }
+</style>
+<div id="content">
+    外层div元素<br>
+    <span>内层div元素</span><br>
+    外层div元素2
+    <div class="search">
+        <strong>请选择</strong>
+        <ul>
+            <li><a href="http://www.jb51.net/article/52307.htm">苹果</a></li>
+            <li><a href="http://www.jb51.net/article/52307.htm">现在</a></li>
+            <li><a href="http://www.jb51.net/article/52307.htm">例子</a></li>
+        </ul>
+    </div>
+    <button class="btn">点击我</button>
+    <button class="del">删除第一个事件</button>
+
+</div>
+<div id="msg"></div>
+<div class="test"></div>
+//trigger事件
+<div class="define"></div>
+//bind绑定多个事件
+<div class="more">绑定多个事件,mouseover,mouseout</div>
+<div class="plugin">添加命名空间，便于管理</div>
+<button class="pluginBtn">命名空间按钮</button>
+
+<script>
+    $(function () {
+        // 为span元素绑定click事件
+        $('span').bind("click", function (e) {
+            var txt = $('#msg').html() + "<p>内层span元素被点击.<p/>";//获取html信息
+            $('#msg').html(txt);// 设置html信息
+            e.stopPropagation()
+        });
+        // 为div元素绑定click事件
+        $('#content').bind("click", function (e) {
+            var txt = $('#msg').html() + "<p>外层div元素被点击.<p/>";
+            $('#msg').html(txt);
+            e.stopPropagation()
+
+        });
+        $('.search').click(function (e) {
+            $('ul').css('display', 'block')
+            e.stopPropagation()
+
+        })
+        $('ul li').click(function (e) {
+            $('ul').css('display', 'none')
+            $('.search strong').html($(this).text())
+            e.stopPropagation()
+            e.preventDefault()
+            //事件类型
+            console.log(e.type)
+            console.log(e.target)
+            console.log('当前位置' + e.pageX + ',' + e.pageY)
+            //可以用return false替换阻止事件默认和事件冒泡，
+            alert(e.which)
+//            return false
+
+        })
+        //获取鼠标的键 1=左键 2=中键 3=右键
+        $('span').click(function (e) {
+            console.log(e.which)
+        })
+        //获取键盘按键
+        $('input').keyup(function (e) {
+            console.log(e.which)
+        })
+//*****************************************移除事件********************
+        $('.btn').bind('click', myO = function () {
+            $('.test').append('<p>我的绑定函数1<p>')
+            return false
+        }).bind('click', myT = function () {
+            $('.test').append('<p>我的绑定函数2<p>')
+            return false
+        })
+    })
+    /***********************************删除事件***********************/
+    $('.del').click(function () {
+        $('.btn').unbind('click', myO())
+        return false
+    })
+
+    /***************************************trigger事件****************************/
+    //触发自定义事件
+    $('.btn').bind('clickTrigger', function () {
+        $('.define').append('<p>我的自定义事件</p>')
+    })
+    $('.btn').trigger('clickTrigger')
+
+    //传递数据，和触发自定义事件函数结果一样
+    $('.btn').bind('myClick',function(event,msg1,msg2){
+        $('.define').append('<p>'+msg1+msg2+'</p>')
+    })
+    $('.btn').trigger('myClick',['我的自定义','事件'])
+    //执行默认数据
+
+    /*****************************************bind事件***********************************/
+    //一：绑定多个事件类型
+    //方法一
+    $('.more').bind('mouseover mouseout',function(){
+        $(this).toggleClass('red')
+    })
+    //方法二
+/*    $('.more').mouseover(function(){
+        $(this).toggleClass('red')
+    }).mouseout(function(){
+        $(this).toggleClass('red')
+    })*/
+    //二：添加事件命名空间，便于管理
+    $('.plugin').bind('click.pulgin',function(){
+        $('body').append('<p>click事件</p>')
+    })
+    $('.plugin').bind('mouseover.pulgin',function(){
+        $('body').append('<p>mouseover事件</p>')
+    })
+//    $('.plugin').bind('dbclick.pulgin',function(){
+//        $('body').append('<p>dbclick事件</p>')
+//    })
+    $('.pluginBtn').click(function(){
+        $('.plugin').unbind('.pulgin')
+    })
+</script>
+</body>
+</html>

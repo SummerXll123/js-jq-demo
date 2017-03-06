@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="js/jquery.1.10.2.js"></script>
+
+</head>
+<body>
+<style>
+    .red{
+        color: red;
+    }
+    .blue{
+        color: #002b5e;
+    }
+</style>
+<div class="friuts">
+    <p>你最喜欢的水果是：</p>
+    <ul>
+        <strong>包裹元素</strong>
+        <strong>包裹元素</strong>
+        <li title="apple" class="red">苹果</li>
+        <li title="orange">橘子</li>
+        <li title="boluo">菠萝</li>
+        <span class="togle red">切换样式</span><br>
+    </ul>
+</div>
+
+<script>
+
+    $(function(){
+        //***********************查找元素节点*************************************
+        //获取Ul里面第2个li节点
+        //会报错，原因是.get()返回的是一个html 对象数组,eq返回的是一个jquery对象
+ /*       var $li=$('li').get(1)
+        var liHtml=$li.text()*/
+
+        //:eq()是选择器,.eq()是方法，结果一样，推荐.eq()
+       var li=$('li').eq(1)
+       var liS=$('li:eq(0)').text()
+       li.attr('title','橘子啊')
+
+        //**************************创建节点***************************
+        $('ul').append('<li title="香蕉">香蕉</li>')
+        //*********************插入到橘子之前的节点******************************
+        $('ul li').eq(2).before('<li title="香蕉">插入到香蕉之前</li>')
+        //*******************************删除节点****************************
+        //删除第1个苹果节点
+        $('ul li:first-child').remove()
+        //********************************复制节点***************************
+        $('ul li').click(function(){
+            //克隆节点
+//            $(this).before($(this).clone())
+            //replaceWith替换节点
+            $(this).replaceWith('<span>替换节点</span>')
+            //replaceAll元素消失
+            $(this).replaceAll('<span>替换节点</span>')
+        })
+        //*********************************包裹元素*********************************
+        //wrap包裹一个元素
+        $('strong').wrap('<b></b>')
+        //wrapAll包裹很多个元素
+        $('strong').wrapAll('<b></b>')
+        //**********************************attr更改css样式****************
+        var sty=$('.red').attr('class','blue')
+        console.log(sty)
+        $('.togle').click(function(){
+            $('.togle').toggleClass('blue')
+
+        })
+    })
+</script>
+</body>
+</html>

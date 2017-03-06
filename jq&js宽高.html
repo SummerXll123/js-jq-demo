@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="js/jquery.1.10.2.js"></script>
+</head>
+<body>
+<style>
+    html,body{
+        margin: 10px;border: 5px solid red;padding: 20px;
+    }
+    .parentDiv{
+        width: 800px;height: 500px;margin: 5px auto;background: #FF6600;border: 5px solid red;padding: 30px;
+    }
+    .childDiv{
+        width: 300px;height: 300px;margin: 50px auto;background: yellowgreen;border: 5px solid red;padding: 5px;box-sizing: border-box;
+    }
+</style>
+    <div class="parentDiv">
+        <div class="childDiv"></div>
+    </div>
+<script>
+/*    console.log($(window).height())
+    console.log($(document).height())
+
+    console.log($(window).innerHeight())
+    console.log($(document).innerHeight())
+
+    console.log($(window).outerHeight())
+    console.log($(document).outerHeight())*/
+    //scrollTop()
+    $('.parentDiv').scroll(function(){
+        console.log($(this).scrollTop())
+    })
+    //offset position
+    //div未设置position
+    console.log($('.childDiv').offset().top)
+    console.log($('.childDiv').offset().left)
+    console.log($('.childDiv').position().top)
+    console.log($('.childDiv').position().left)
+
+</script>
+</body>
+</html>

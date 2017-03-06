@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="js/jquery.1.10.2.js"></script>
+
+</head>
+<body>
+<style type="text/css">
+    *{padding: 0;margin:0;}
+    #main{
+        position: relative;
+    }
+    .pin{
+        padding: 15px 0 0 15px;
+        float:left;
+    }
+    .box{
+        padding: 10px;
+        border:1px solid #ccc;
+        box-shadow: 0 0 6px #ccc;
+        border-radius: 5px;
+    }
+    .box img{
+        width:162px;
+        height:auto;
+    }
+</style>
+<div id="main">
+    <div class="pin">
+        <div class="box">
+            <img src="images2/1.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/2.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/3.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/4.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/5.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/6.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/7.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/8.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/9.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/10.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/11.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/12.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/13.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/14.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/15.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/16.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/17.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/18.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/19.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/20.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/21.jpg"/>
+        </div>
+    </div>
+</div>
+<script>
+    /*
+    * 瀑布流实现：
+     1求出列数，将每列的高度存放在一个数组内；
+     2遍历数组，求出高度最小的图片；
+     3将下一个图片放在min下
+     4修改图片的当前高度；*/
+    window.onload=function(){
+        //封装一个函数
+        waterFall('main','box')
+        var dataInt={"data":[{"src":"5.jpg"},{"src":"1.jpg"},{"src":"2.jpg"},{"src":"3.jpg"}]}
+        //滚动
+        window.onscroll=function(){
+            if(checkScrollSlide){
+                var oParent=document.getElementById('main')
+            //将数据块渲染到当前页面的尾部
+                for(var i=0;i<dataInt.data.length;i++){
+                    var oBox=document.createElement('div')
+                    oBox.className='box'
+                    oParent.appendChild(oBox)
+                    var oPic=document.createElement('div')
+                    oPic.className='pic'
+                    oBox.appendChild(oPic)
+                    var oImg=document.createElement('img')
+                    oImg.src="images/"+dataInt.data[i].src;
+                    oPic.appendChild(oImg)
+                }
+                waterFall('main','box')
+
+            }
+        }
+    }
+    function waterFall(parent,box){
+        //将main下面所有class为box的元素取出来
+        var oParent=document.getElementById(parent);
+        var oBoxs=getByClass(oParent,box)
+        console.log(oBoxs.length)
+        //计算整个页面显示的列数（页面宽/box的宽）
+        var oBoxW=oBoxs[0].offsetWidth;//获取第一个元素的宽度
+        var cols=Math.floor(document.documentElement.clientWidth/oBoxW)
+        //设置main的宽,oParent.style.cssText,#main一开始沒有设置宽度, 浏览器大小有变化, #main也就会跟着变化, 而列数就会变化, 所以要给#main设置固定
+        oParent.style.cssText='width:'+oBoxW*cols+'px;margin:0 auto'
+        //存放每一列的数组
+        // 第二步，找第一行的高度值，高度值存放进数组，找出高度最小的图片,然后，每一行存放的是每一列的值
+        var hArr=[];
+        for(var i=0;i<oBoxs.length;i++){
+            if(i<cols){//怎么获取第一行的高度？只要i小于列数（cols）就可以了
+                hArr.push(oBoxs[i].offsetHeight)
+            }else{
+                var minH=Math.min.apply(null,hArr)//Math.min(）求最小值，但是只能是一组数据，Math.min(45,4,1),不能对数组取最小值，用apply改变this指向
+                //获取最小值的索引
+                var index=getMinhIndex(hArr,minH)
+                console.log(minH)
+                oBoxs[i].style.position='absolute'
+                oBoxs[i].style.top=minH+'px'
+//                oBoxs[i].style.left=oBoxW*index+'px'
+                oBoxs[i].style.left=oBoxs[index].offsetLeft+'px'
+                //解决重叠问题，新的高度=原来  最小值得高度=新的图片高度+原来的高度
+                hArr[index]+=oBoxs[i].offsetHeight
+
+            }
+        }
+        console.log(hArr)
+    }
+    //根据class获取元素
+    function getByClass(parent,clsName){
+        var boxArr=new Array(),//用来存储获取到的所有class为box的元素
+        oElements=parent.getElementsByTagName('*')
+        for(var i=0;i<oElements.length;i++){
+            if(oElements[i].className==clsName){
+                boxArr.push(oElements[i]);
+            }
+        }
+        return boxArr;
+    }
+    //获取最小值的索引
+    function getMinhIndex(arr,val){
+        for(var i in arr){
+            if(arr[i]==val){
+                return i
+            }
+        }
+    }
+    //检测是否具备记载数据块的条件
+    function checkScrollSlide(){
+        var oParent=document.getElementById('main')
+        var oBoxs=getByClass(oParent,'box')
+        //获取最后一个图片发高度
+        var lastBoxH=oBoxs[oBoxs.length-1].offsetTop+Math.floor(oBoxs[oBoxs.length-1].offsetTop/2)
+        //滚走的距离,兼容混杂模式和标准模式
+        var scrollTop=document.body.scrollTop||document.documentElement.scrollTop
+        var height=document.body.clientHeight||document.documentElement.clientHeight
+//        console.log(scrollTop)
+        console.log(height)
+        return(lastBoxH<scrollTop+height?true:false)
+    }
+
+    function getClassName(className,parent){
+        var oParent=parent?document.getElementById(parent):document
+        var oChild=oParent.getElementsByTagName('*')//获取所有的标签元素
+        var arr=[]
+        for(i in oChild){
+            //判断遍历的元素的类名是否和要查找的类名相等
+            if(oChild[i].className==className){
+                arr.push(oChild[i])
+            }
+        }
+        return arr
+    }
+</script>
+</body>
+</html>

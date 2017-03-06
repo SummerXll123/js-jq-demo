@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="js/jquery.1.10.2.js"></script>
+
+</head>
+<body>
+<style>
+    li{
+        list-style: none;
+        padding: 2px;
+        border: 2px solid blue;
+        margin: 0 2px;
+    }
+    ul{
+        display: flex;
+    }
+    li img{
+        display: block;
+        width: 200px;
+        height: 200px;
+    }
+</style>
+<div class="imgBox">
+    <ul>
+        <li><a href="images/1.jpg" class="toolTip" title="图片1"><img src="images/1.jpg" alt=""/></a></li>
+        <li><a href="images/2.jpg" class="toolTip" title="图片2"><img src="images/2.jpg" alt=""/></a></li>
+        <li><a href="images/3.jpg" class="toolTip" title="图片3"><img src="images/3.jpg" alt=""/></a></li>
+        <li><a href="images/4.jpg" class="toolTip" title="图片4"><img src="images/4.jpg" alt=""/></a></li>
+    </ul>
+</div>
+<script>
+    $(function(){
+        /*******************************************思路****************************/
+//        鼠标滑过时候，创建一个div,div里面放图片的路径
+
+        //设置偏移量
+        var x=10,
+            y=20;
+
+        $('.toolTip').mouseover(function(e){
+            var href=this.href,  //可以用this.href代替$(this).attr('href')
+             tit=this.title,
+             bigBox=`<div id='tip'><div class='parent'><img src=${href} alt=${tit}><span>${tit}</span></div></div>`
+            $('body').append(bigBox)
+            //鼠标移动的位置
+            $('.parent').css({
+                'position':'relative'
+            })
+            $('#tip span').css({
+                'position':'absolute',
+                'top':0,
+                'color':'red'
+            })
+
+        }).mouseout(function(e){//记住是.mouseout而不是逗号
+            $('#tip').remove()
+
+        }).mousemove(function(e){  //如果写法都正确，看看是不是mousemove
+            $('#tip').css({
+                'top':(e.pageY+x)+'px', //记住是用括号，和e
+                'left':(e.pageX+y)+'px'
+            })
+        })
+    })
+</script>
+</body>
+</html>

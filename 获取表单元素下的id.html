@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="js/jquery.1.10.2.js"></script>
+</head>
+<body>
+
+<form name="myForm" id="form">
+    <input name="uid" type="hidden" value="1" />
+    <input name="username" type="text" value="张三" />
+    <input name="password" type="text" value="123456" />
+    <select name="grade" id="grade">
+        <option value="1">一年级</option>
+        <option value="2">二年级</option>
+        <option value="3">三年级</option>
+        <option value="4">四年级</option>
+        <option value="5">五年级</option>
+        <option value="6">六年级</option>
+    </select>
+    <button id="gradeReset">回复默认的select</button>
+    <input name="sex" type="radio" 0 value="1" /><span>男</span>
+    <input name="sex" type="radio" value="0" />女
+    <input name="hobby" type="checkbox" checked="checked" value="1" />游泳
+    <input name="hobby" type="checkbox" checked="checked" value="2" />跑步
+    <input name="hobby" type="checkbox" value="3" />羽毛球
+    <input name="btn" id="btn22" type="button" value="点击" />
+</form>
+<form id="checkIn">
+    <input type="text" name="email" value="请输入邮箱地址"/>
+    <input type="text" name="pwd" value="请输入密码"/><br>
+    <input type="button" value="提交"/>
+</form>
+<div class="content">
+    获取内容为：
+    <span class="spanId"></span>
+</div>
+<script>
+    $('#btn22').click(function(){
+       //获取表单所有的id
+       /* var idS=$.each('#form',function(){
+            $(this).attr('id')
+        })*/
+        //获取某个的id
+        var id=$('#btn22').attr('id')
+        var hobby=$("input[name='sex']").attr('value')
+
+        //获取input表单里面某个元素，对其进行循环
+      $("input[name='sex']").each(function(){
+          newC=$(this).val()
+          $('.spanId').append(newC+'<br>')
+      })
+
+
+
+    })
+    //获取select的选中的value
+    $('#grade').change(function(){
+        var sel=$('#grade option:checked').val()
+        console.log(sel)
+    })
+    //恢复默认的select
+    $('#gradeReset').click(function(){
+        $('#grade option:checked').attr('value',1)
+
+        $("input[type=radio][checked]").attr('value',0);
+    })
+
+
+    //获取按钮的val()
+    //   var aa= $("input[name='sex]").attr('checked',true)
+    //获取radio选中的内容
+    //   var aa=$("input[type=radio][checked]").next('span').text();
+    //获取radio选中的value
+     var aa=$("input[type=radio][checked]").val();
+    //恢复radio选中的默认值
+//    var aa=$("input[type=radio][checked]").attr('value',0);
+
+    console.log(aa)
+/******************************************文本框聚焦*************************/
+    $('#checkIn :input').focus(function(){
+        //使用this.defaultValue当前文本的默认值
+        if($(this).val()==this.defaultValue){
+            $(this).val('')
+        }
+    })
+    $('#checkIn :input').blur(function(){
+        if($(this).val()==''){
+            $(this).val(this.defaultValue)
+        }
+    })
+
+</script>
+</body>
+</html>

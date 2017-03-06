@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="js/jquery.1.10.2.js"></script>
+
+</head>
+<body>
+<style>
+    .focus{
+        border: 2px solid red;
+        /*background: seagreen;*/
+    }
+    .none{
+        border: none;
+    }
+</style>
+<div class="info">
+    <label>名称：</label><input type="text"/><br>
+    <label>密码：</label><input type="text"/><br>
+    <label>详细信息：</label><textarea name="" id="" cols="30" rows="10"></textarea><br>
+    <label>评论框：</label>
+    <a href="javascript:void(0)" class="big">放大</a>
+    <a href="javascript:void(0)" class="small">缩小</a><br>
+    <a href="javascript:void(0)" class="up">向上</a>
+    <a href="javascript:void(0)" class="down">向下</a><br>
+    <textarea name="" id="comment" cols="30" rows="10">test test  testtest test  testtest test  testtest test  testtest test
+        testtest test  testtest test  testtest test  testtest test  testtest test  testtest test  testtest test  testtest test  testtest te
+        st  testtest test  testtest test  testtest test  testtest test  testtest test  testtest test  testtest test  testtest test  testtest t
+        st  testtest test  testtest test  testtest test  testtest test  testtest test  testtest test  testtest test  testtest test  testtest t
+        st  testtest test  testtest test  testtest test  testtest test  testtest test  testtest test  testtest test  testtest test  testtest t
+        st  testtest test  testtest test  testtest test  testtest test  testtest test  testtest test  testtest test  testtest test  testtest t
+        st  testtest test  testtest test  testtest test  testtest test  testtest test  testtest test  testtest test  testtest test  testtest t
+        st  testtest test  testtest test  testtest test  testtest test  testtest test  testtest test  testtest test  testtest test  testtest t
+        st  testtest test  testtest test  testtest test  testtest test  testtest test  testtest test  testtest test  testtest test  testtest t
+        st  testtest test  testtest test  testtest test  testtest test  testtest test  testtest test  testtest test  testtest test  testtest t
+        est  testtest test  testtest test  test</textarea>
+</div>
+/*******************************复选框运用*********************************/
+<form>
+    你爱好的运动是:<br>
+    <input type="checkbox" name="items" value="足球"/>足球
+    <input type="checkbox" name="items" value="篮球"/>篮球
+    <input type="checkbox" name="items" value="羽毛球" checked="checked"/>羽毛球
+    <input type="checkbox" name="items" value="乒乓球" checked="checked"/>乒乓球
+    <input type="button" id="checkAll" value="全选"/>
+    <input type="button" id="checkNo" value="全不选"/>
+    <input type="button" id="checkRev" value="反选"/>
+    <input type="button" id="checkSel" value="全选/全不选"/>
+    <div class="checkBox"></div>
+    <input type="button" id="send" value="提交"/>
+</form>
+
+<script>
+
+    $(function(){
+        /*******************************表单焦点事件*********************************/
+        $(':input').focus(function(){
+            $(this).addClass('focus')
+        }).blur(function(){
+            $(this).removeClass('focus')
+        })
+        /*******************************多行文本框放大缩小的功能*********************************/
+        $('.big').click(function(){
+            console.log($('#comment').height())
+            if($('#comment').height()<145){
+                //第一种
+     /*           $('#comment').height($('#comment').height()+300)
+                $('#comment').width($('#comment').width()+300)*/
+                //第二种
+                  $('#comment').css({
+                 'width':$('#comment').width()+100,
+                 'height':$('#comment').height()+100
+                 })
+            }
+        })
+        if($('#comment').height()>100){
+            $('.small').click(function(){
+                $('#comment').css({
+                    'width':$('#comment').width()-20,
+                    'height':$('#comment').height()-20
+                })
+            })
+        }
+        /*******************************文本框滚动条向上向下*********************************/
+        $('.up').click(function(){
+           if(!$('#comment').is(':animated')){
+               $('#comment').animate({ scrollTop  : "-=50" } , 400);
+                //$("#comment").scrollTop(50);
+           }
+        })
+        $('.down').click(function(){//向下按钮绑定单击事件
+            if(!$('#comment').is(":animated")){
+                $('#comment').animate({ scrollTop  : "+=50" } , 400);
+            }
+        });
+        /*******************************复选框的运用*********************************/
+        //全选
+        $('#checkAll').click(function(){
+            $(":input[name='items']").attr('checked',true)
+        })
+        //全不选
+        $('#checkNo').click(function(){
+            $("[name='items']").attr('checked',false)
+        })
+        //反选
+        $('#checkRev').click(function(){
+            //1.方法一实现反选
+            $("[name='items']").each(function(){
+                //$(this).attr('checked',!$(this).attr('checked'))
+                this.checked = !this.checked;
+            })
+            //2.方法二实现反选
+            var check=$("[name='items']").attr('checked',true)
+            if(check){
+                $("[name='items']").attr('checked',false)
+            }
+        })
+        //全选/全不选
+        $('#checkSel').click(function(){
+            console.log(this.checked)
+/*            if(this.checked){
+                $("[name='items']").attr('checked',true)
+            }else{
+                $("[name='items']").attr('checked',false)
+
+            }*/
+            $("[name='items']").attr('checked',this.checked)
+        })
+        //输出选中的值
+        $("[name='items']:checked").each(function(){
+            var str=$(this).val()
+            $('.checkBox').append(str)
+        })
+        //动态原型模式
+        function Person(name,age,job){
+            this.name=name;
+            this.age=age;
+            this.job=job;
+            //方法
+            if(typeof this.sayName!='function'){
+                Person.prototype.sayName=function(){
+                    alert(this.name)
+                }
+            }
+        }
+
+        var friend=new Person('Nico',23,'Doctor')
+        friend.sayName()
+
+    })
+</script>
+</body>
+</html>

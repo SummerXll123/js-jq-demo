@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <script src="js/jquery.1.10.2.js"></script>
+
+    <title></title>
+</head>
+<body>
+<style>
+    .txt{
+        display: none;
+    }
+    .red{
+        color: red;
+        font-size: 20px;
+    }
+    .blue{
+        color: blue;
+        font-size: 22px;
+    }
+</style>
+    <div class="box">
+        <p>什么是jq</p>
+        <div class="txt">
+            event.pageX 属性返回鼠标指针的位置，相对于文档的左边缘。
+        </div>
+    </div>
+<script>
+    $(function(){
+        $('.box p').click(function(){
+            //判断元素是否隐藏
+            //第一种  $('.txt').css('display')=='none'
+            //第二种  $('.txt').is(':visible')
+            // if($('.txt').is(':visible')){
+            var display=$('.txt').css('display')
+            if(display=='none'){
+                $('.txt').show()
+                $(this).addClass('red')
+                $('.txt').addClass('blue')
+                /********************如果在js里面放样式的话，在关闭的时候，样式不会移除***********************************/
+               /* $('.red').css({
+                    'color':'red',
+                    'fontSize':'20px'
+                })
+                $('.blue').css({
+                    'color':'blue',
+                    'fontSize':'10px'
+                })*/
+
+            }else{
+                $('.txt').hide().removeClass('blue')
+                $(this).removeClass('red')
+                $('.txt').removeClass('blue')
+
+
+            }
+        })
+    })
+</script>
+</body>
+</html>

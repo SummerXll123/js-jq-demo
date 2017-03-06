@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <script src="js/jquery.1.10.2.js"></script>
+    <title></title>
+</head>
+<body>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    img {
+        width: 232px;
+        height: 200px;
+    }
+    span:hover{
+        cursor: pointer;
+    }
+    .current,span:hover{
+        width: 5px;
+        height: 5px;
+        background: #ad8888;
+        color: #fff;
+    }
+    .v_caption {
+        display: flex;
+        align-items: center;
+        background: #eee;
+    }
+    ul{
+        display: flex;
+    }
+    li {
+        display: flex;
+        padding: 10px 5px;
+    }
+
+    .v_show {
+        border: 1px solid #ddd;
+        margin: 20px;
+        overflow: hidden;
+    }
+</style>
+<div class="v_show">
+    <div class="v_caption">
+        <h2>卡通动漫</h2>
+        <div class="highlight_tip">
+            <span class="current">1</span>
+            <span>2</span>
+            <span>3</span>
+            <span>4</span>
+        </div>
+        <div class="change_btn">
+            <span class="prev">&lt;</span>
+            <span class="next">&gt;</span>
+        </div>
+    </div>
+    <div class="v_content">
+        <div class="v_content_list">
+            <ul>
+                <li><a href="#"><img src="images/1.jpg" alt=""/></a></li>
+                <li><a href="#"><img src="images/2.jpg" alt=""/></a></li>
+                <li><a href="#"><img src="images/3.jpg" alt=""/></a></li>
+                <li><a href="#"><img src="images/4.jpg" alt=""/></a></li>
+                <li><a href="#"><img src="images/4.jpg" alt=""/></a></li>
+                <li><a href="#"><img src="images/4.jpg" alt=""/></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        var page= 1;//初始化当前版面为1
+        var i=4;//每个版本放4个
+
+
+        $('.next').click(function(){
+            var $parent=$(this).parents('.v_show')
+            var $v_show=$parent.find('.v_content_list')
+            var $v_content=$parent.find('.v_content')
+
+            var v_width=$v_content.width()//外围div的宽度
+            var len=$v_show.find('li').length //一共有多少个图片 ,记得不是length()
+            var page_count=Math.ceil(len/i) //一共有多少版面
+            if(!$v_show.is(':animated')){
+                if(page==page_count){
+
+                    $v_show.animate({marginLeft:'0px'},'slow')//slow记得加'';left不能用时候，加上marginLeft
+                    page=1;
+//                    return false
+                }else{
+                    $v_show.animate({
+                        marginLeft:'-='+v_width,
+                    },'slow')
+                    page++;
+                }
+
+                $parent.find('span').eq((page-1)).addClass('current').siblings().removeClass('current')
+            }
+
+        })
+        $('.prev').click(function(){
+
+            var $parent=$(this).parents('.v_show')
+            var $v_show=$parent.find('.v_content_list')
+            var $v_content=$parent.find('.v_content')
+
+            var v_width=$v_content.width()//外围div的宽度
+            var len=$v_show.find('li').length //一共有多少个图片 ,记得不是length()
+            var page_count=Math.ceil(len/i) //一共有多少版面
+            if(!$v_show.is(':animated')){
+                if(page==1){
+                    $v_show.animate({marginLeft:'-='+v_width*(page_count-1)},'slow')//slow记得加'';left不能用时候，加上marginLeft
+                    page=page_count;
+                }else{
+                    $v_show.animate({marginLeft:'+='+v_width},'slow')
+                    page--
+                }
+            }
+            $parent.find('span').eq((page-1)).addClass('current').siblings().removeClass('current')
+
+        })
+    })
+</script>
+</body>
+</html>
