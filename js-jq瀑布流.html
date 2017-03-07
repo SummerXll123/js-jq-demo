@@ -13,7 +13,7 @@
         position: relative;
     }
     .pin{
-        padding: 15px 0 0 15px;
+        padding: 15px 0 0 14px;
         float:left;
     }
     .box{
@@ -134,9 +134,13 @@
         </div>
     </div>
 </div>
-<script>
+
+<!--**********************************************************js瀑布流***************************************-->
+<!--<script>
     /*
-    * 瀑布流实现：
+    *
+    注意：如果出现重叠问题，看看是不是padding的问题
+    瀑布流实现：
      1求出列数，将每列的高度存放在一个数组内；
      2遍历数组，求出高度最小的图片；
      3将下一个图片放在min下
@@ -242,6 +246,65 @@
             }
         }
         return arr
+    }
+</script>-->
+<!--**********************************************************jq瀑布流***************************************-->
+<script>
+    $(window).on('load',function(){
+        waterfall()
+        var dataInt={"data":[{"src":"5.jpg"},{"src":"1.jpg"},{"src":"2.jpg"},{"src":"3.jpg"}]}
+
+        $(window).scroll(function(){
+            //判断是否具备加载条件
+            if(checkScrollSlide()){
+                $.each(dataInt.data,function(index,value){
+                    console.log()
+                    $('#main').append(`<div class="pin"><div class="box"><img src='images2/${dataInt.data[index].src}'></div></div>`)
+                })
+                waterfall()
+            }
+        })
+
+    })
+
+    function waterfall(){
+        var $boxs=$('#main .pin')
+        var w=$boxs.eq(0).outerWidth()//小div的宽度
+        var cols=Math.floor($(window).width()/w) //求列数
+        var mainW=$('#main').width(cols*w); //大div的宽度
+        //设置空数组，盛放第一行所有的列数
+        var arr=[]
+        $.each($boxs,function(index,value){
+//            var h=$boxs.eq(index).outerHeight() //获取第几个的高度
+//            arr[index]=h; //arr数组索引值对应的内容是h
+            //获取第一行所有的列数的高度值，并取最小值和最小值的索引
+            if(index<cols){  //后边的图片放到高度最小的图片下面
+                arr[index]=$boxs.eq(index).outerHeight()  //对第一行的元素进行遍历，获取高度放在arr里面
+            }else{
+                //对第一行所有的列数进行遍历，取最小值
+                var minH=Math.min.apply(null,arr) //记住是apply,apply只对数组操作
+                var minHIndex= $.inArray(minH,arr)  //获取最小高度在数组中的索引
+                //设置第一行以后的元素的位置，第八张图片定位到第一行最小高度的下面，top为最小高度值
+                $(value).css({  //value加$()是为了转成jq对象，使用jq方法
+                    'position':'absolute',
+                    'top':minH+'px',
+                    'left':minHIndex*w+'px'
+                })
+                //arr盛放每一行的列数，
+                arr[minHIndex]+=$boxs.eq(index).outerHeight()  //第7张图片以后，每个图片的位置是：上一行的最小高度+当前的高度
+            }
+        })
+    }
+    //滚动时候是否加载
+    function checkScrollSlide(){
+
+
+        var lastH=$('#main :last') //最后一个图片
+        var lastHeight=Math.floor(lastH.outerHeight()/2)+lastH.offset().top  //最后一个图片高度的一半加上相对于文档的偏移量
+        var documentH=$(window).height()  //
+        var scrollTop=$(window).scrollTop()  //获取滚动的距离
+        //最后一张图片高度的一半和它自身的偏移量<浏览器滚动高度+浏览器的高度，才会继续加载
+        return (lastHeight<scrollTop+documentH)?true:false
     }
 </script>
 </body>
