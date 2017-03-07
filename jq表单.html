@@ -15,11 +15,17 @@
     .none{
         border: none;
     }
+    .red{
+        color: red;
+    }
 </style>
 <div class="info">
-    <label>名称：</label><input type="text"/><br>
-    <label>密码：</label><input type="text"/><br>
+    <label>名称：</label><input type="text" class="required" id="name"/><br>
+    <label>密码：</label><input type="text" class="required" id="pwd"/><br>
+    <label>个人资料：</label><input type="text"/><br>
     <label>详细信息：</label><textarea name="" id="" cols="30" rows="10"></textarea><br>
+    <button id="btn" value="表单提交">表单提交</button>
+    <button id="reset" value="表单重置">表单重置</button><br>
     <label>评论框：</label>
     <a href="javascript:void(0)" class="big">放大</a>
     <a href="javascript:void(0)" class="small">缩小</a><br>
@@ -141,14 +147,55 @@
             //方法
             if(typeof this.sayName!='function'){
                 Person.prototype.sayName=function(){
-                    alert(this.name)
+                    console.log(this.name)
                 }
             }
         }
 
         var friend=new Person('Nico',23,'Doctor')
         friend.sayName()
+        //表单提交
+//        思路：1.失去焦点,判断是“用户名”还是“邮箱”，分别处理
+//        2.如果是用户名，判断元素长度的值是否小于6，如果小于6，红色输入框提示不正确，反之，绿色提醒正确
+//        3.判断邮箱是否符合正则表达式
+        $(':input').blur(function(){
+            //多点击几次会一直提醒错误，所以要删除
+            $(this).next('span').remove()//重要
+            var reg=/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/
+            //用户名
+                if($(this).is('#name')){
+                    if(this.value==""||this.value.length<6){
+                        $(this).after('<span class="red">请输入至少6位的用户名</span>')
+                    }else{
+                        $(this).after('<span>输入正确</span>')
+                    }
+                }
+                //邮箱
+                if($(this).is('#pwd')){
+                    if(this.value==""||!reg.test(this.value)){  //注意加叹号
+                        $(this).after('<span class="red">请输入正确的邮箱</span>')
+                    }else{
+                        $(this).after('<span>输入正确</span>')
+                    }
+                }
+            return false
+            }).keyup(function(){
+            $(this).triggerHandler('blur')
+        }).focus(function(){
+            $(this).triggerHandler('blur')
+        })
 
+
+        $('#btn').click(function(e){
+//            debugger
+            $('.required:input').trigger('blur')
+            var numError=$('.red').length
+            if(numError){
+                return false;
+            }else {
+                alert('注册成功')
+            }
+        })
     })
 </script>
 </body>
