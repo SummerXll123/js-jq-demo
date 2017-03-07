@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="js/jquery.1.10.2.js"></script>
+</head>
+<body>
+<style>
+    /******************************css3多栏布局******************/
+
+    /*可以用css3的column-width，实现瀑布流，IE10+才支持此属性
+    优点：不需要计算，浏览器自动计算，只需设置列宽，性能高
+      缺点：列宽随着浏览器窗口大小进行改变，用户体验不好
+
+    */
+
+
+    /************************************js实现方式*****************/
+    /*
+    1.需要计算，列数=浏览器窗口宽度/图片宽度，图片定位是根据每一列数据库的高度进行定位
+    2.图片排序是按照计算的位置横向排列，位置是计算出来的，比较规范。
+    */
+
+
+#main{
+
+    -webkit-column-width: 202px;
+    -moz-column-width: 202px;
+    -o-column-width: 202px;
+    -ms-column-width: 202px;
+    /*-webkit-column-count: 5;*/
+    /*-moz-column-count: 5;*/
+    /*-o-column-count: 5;*/
+    /*-ms-column-count: 5;*/
+}
+.box{
+    padding: 10px 0 0 15px;
+}
+.pic{
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    -webkit-box-shadow: 0 0 5px #ccc;
+    -moz-box-shadow: 0 0 5px #ccc;
+    box-shadow: 0 0 5px #ccc;
+    width: 165px;
+}
+.pic img{
+    display: block;
+    width: 165px;
+    height: auto;
+}
+
+    
+</style>
+<div id="main">
+    <div class="pin">
+        <div class="box">
+            <img src="images2/1.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/2.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/3.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/4.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/5.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/6.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/7.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/8.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/9.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/10.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/11.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/12.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/13.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/14.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/15.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/16.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/17.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/18.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/19.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/20.jpg"/>
+        </div>
+    </div>
+    <div class="pin">
+        <div class="box">
+            <img src="images2/21.jpg"/>
+        </div>
+    </div>
+</div>
+</body>
+</html>
