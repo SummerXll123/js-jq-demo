@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="js/jquery.1.10.2.js"></script>
+</head>
+<body>
+<!--**********************************制作新手引导的思路***********************-->
+<!--1.绝对定位：
+（1）有父节点，参照付节点
+（2）没有父节点，参照body的左上
+2.html结构
+ 蒙版设置：设置html和body，蒙版的高度为100%，为了撑开蒙版（为了解决兼容问题）
+
+ 注意内容：1.html和body都设置为100%
+ 2.ie8以下都不支持opacity，可以使用filter来解决这个问题。
+ 3.隐藏按钮文字的小技巧,text-indent:-999px; overflow:hidden；这种方法是先使用text-indent:-999px;语句把被设置元素“挤出去”了，然后设置溢出的元素都隐藏起来，也就是被挤出去的元素隐藏起来。
+-->
+<style>
+    *{ margin:0; padding:0}
+    html{ height:100%}
+    body{ background:url(images/body.png) center top; height:100%}
+    #mask{ height:100%; width:100%; background:#000; opacity:0.5; filter:alpha(opacity=50); position:absolute; left:0; top:0; display:none;position: fixed}
+    #searchTip{ width:980px; height:800px; margin:0 auto; position:relative; }
+    #searchTip div{ position:absolute; display: none }
+    #searchTip div a{ position:absolute;width:96px; height:32px; cursor:pointer; text-indent:-999px; overflow:hidden}
+    #searchTip div span{cursor:pointer; position:absolute; width:30px; height:30px;text-indent:-999px; overflow:hidden}
+    .stepA{ background:url(images/guide11.png); height:329px; width:745px; top:130px; left:-9px; display:block}
+    .stepA a{top:230px; left:490px; }
+    .stepA span{ top:143px; right:32px; }
+    .stepB{ background:url(images/guide21.png); width:647px; height:405px;top:2px; left:324px}
+    .stepB a{top:308px; left:146px;}
+    .stepB span{ top:196px; right:285px; }
+    .stepC{ background:url(images/guide31.png); width:654px; height:257px;top:294px; left:318px}
+    .stepC a{top:155px; left:400px; }
+    .stepC span{ top:44px; right:35px; }
+    .stepD{ background:url(images/guide41.png); width:558px; height:348px;top:78px; left:155px}
+    .stepD a{top:246px; left:304px;}
+    .stepD span{ top:135px; right:35px; }
+    .stepE{ background:url(images/guide51.png); width:397px; height:342px;top:79px; left:250px}
+    .stepE a{top:245px; left:153px;}
+</style>
+<div id="mask"></div>//
+<div id="searchTip">
+    <div class="stepA"><a>下一步</a><span title="关闭">关闭</span></div>
+    <div class="stepB"><a>下一步</a><span title="关闭">关闭</span></div>
+    <div class="stepC"><a>下一步</a><span title="关闭">关闭</span></div>
+    <div class="stepD"><a>下一步</a><span title="关闭">关闭</span></div>
+    <div class="stepE"><a>下一步</a></div>
+</div>
+<!--**************************************js******************************-->
+<!--<script>
+    window.onload=function(){
+        var oMask=document.getElementById('mask')
+        var oSearch=document.getElementById('searchTip')
+        var aStep=oSearch.getElementsByTagName('div')
+        var aA=oSearch.getElementsByTagName('a')
+        var aClose=oSearch.getElementsByTagName('span')
+
+        //读取cookie
+        var res=document.cookie.substring(5)
+        console.log(res)
+        //如果没有cookie,执行以下动作
+        if(res!='www.open.com.cn'){  //记得加引号
+            //mask 父框 第一单元显示出来
+            oMask.style.display=oSearch.style.display=aStep[0].style.display='block'
+        }
+        //下一步按钮
+        for(var i=0;i<aStep.length;i++){
+            aA[i].index=i;  //设置索引值
+            aA[i].onclick=function(){
+                this.parentNode.style.display='none'
+                //通过判断当前的索引值和最后一个的索引值，解决最后一个问题
+                if(this.index<aStep.length-1){//解决最后一个的问题
+                    aStep[this.index+1].style.display='block'
+                }else if(this.index==aStep.length-1){  //如果是最后一个的话，就隐藏所有的
+                    this.parentNode.style.display='none'
+                }
+            }
+        }
+        //关闭按钮
+        for(var i in aClose){
+            aClose[i].onclick=function(){
+                oMask.style.display=oSearch.style.display='none'
+            }
+        }
+        //添加cookie
+        //name可以随便命名
+        var oDate=new Date()
+        oDate.setDate(oDate.getDate()+30); //设置日期
+        var oName='www.open.com.cn'
+//        document.cookie="name=www.open.com.cn;expires=oDate"
+        document.cookie="name="+oName+";expires="+oDate  //里面的字符串必须为双引号
+    }
+</script>-->
+<!--************************************************jq*******************************-->
+<script>
+    $(function(){
+
+        //读取cookie
+        var res=name.substring('5')
+        if(res!='www.open.com.cn'){
+            $('#mask,#searchTip,#searchTip div:eq(0)').show()
+        }
+
+        //点击
+        $('#searchTip div a').click(function(){
+            $(this).parent().hide()
+                    .next().show()
+           /* if($(this).parent().is('.stepE')){
+                $('#mask,#searchTip,#searchTip div:eq(0)').hide()
+            }else{
+                $(this).parent().hide()
+                .next().show()
+            }*/
+        })
+        //关闭,如果是最后一个的时候，不需要加判断，直接把所有的都关闭即可
+        $('#searchTip div span,#searchTip div a:last').click(function(){
+            $(this).parent().hide()
+            $('#mask,#searchTip').hide()
+        })
+        //设置cookie
+        var day=new Date();
+        day.setDate(day.getDate()+30)
+        var newName='www.open.com.cn'
+        document.cookie="name="+newName+";expires="+day
+    })
+</script>
+
+<!--*****************************总结**************************-->
+<!--
+js
+1.循环判断的时候，要加索引值，通过判断索引值解决最后一个问题
+2.设置日期，是setDate()
+3.设置cookie，里面如果是动态的数据，记得都是双引号
+4.读取cookie
+jq
+1.最后一个图片的时候，不需要判断，直接和关闭按钮一起进行关闭功能
+2.最后一个元素:last
+-->
+</body>
+</html>
